@@ -34,6 +34,7 @@ export default class Start extends React.Component {
 
 	render() {
 
+		// CSS Styles for Main Page
 		const styles = StyleSheet.create({
 			container: {
 				height: '44%',
@@ -147,6 +148,8 @@ export default class Start extends React.Component {
 				}
 		});
 
+		// Return of Components Starts Here
+
 		return (
 
 				<ImageBackground resizeMode="cover" style={styles.image}
@@ -166,6 +169,9 @@ export default class Start extends React.Component {
 						accesibilityHint="Application Options"
 						accesibilityRole="main view"
 						style={styles.container}>
+
+						{/*Input box for name*/}
+
 				<View
 					accessible={true}
 					accesibilityLabel="input field for name with usericon"
@@ -179,6 +185,8 @@ export default class Start extends React.Component {
 						placeholder={"Your Name"} >
 				</TextInput>
 				</View>
+
+						{/*Module to Pick Color*/}
 
 						<View style={styles.colorPicker}>
 							<TouchableOpacity
@@ -212,7 +220,10 @@ export default class Start extends React.Component {
 								accesibilityRole="combobox"
 								onPress={()=> { this.changeColor(this.color.paleBlue)}}
 								style={styles.colorSelect}>
-								<View style={styles.circle3}></View></TouchableOpacity>
+								<View style={styles.circle3}>
+
+								</View>
+							</TouchableOpacity>
 
 							<TouchableOpacity
 								accessible={true}
@@ -226,6 +237,7 @@ export default class Start extends React.Component {
 								</TouchableOpacity>
 						</View>
 
+						{/*Module to Submit Name and color*/}
 
 				<Pressable style={styles.button}
 				           onPress={() => this.props.navigation.navigate('Chat', {

@@ -1,8 +1,7 @@
 import React                                                                           from 'react';
 import { View, Button, Platform, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat, Bubble }                                                          from 'react-native-gifted-chat';
-import ViewabilityHelper
-                                                                                       from 'react-native-web/dist/vendor/react-native/ViewabilityHelper';
+
 
 
 export default class Chat extends React.Component {
@@ -14,6 +13,10 @@ export default class Chat extends React.Component {
 	};
 
 	componentDidMount() {
+		// Gives name to the prop
+
+		let name = this.props.route.params.name;
+
 		this.setState({
 			messages: [
 				{
@@ -28,7 +31,7 @@ export default class Chat extends React.Component {
 				},
 				{
 					_id: 2,
-					text: "This is a system message",
+					text: `${name} has entered the chat"`,
 					createdAt: new Date(),
 					system: true,
 				},
@@ -60,19 +63,14 @@ export default class Chat extends React.Component {
 	render() {
 		// Sets Name Entered in Start Screen
 		let name = this.props.route.params.name;
-		this.props.navigation.setOptions = function (param) {
-			this.props.navigation.setOptions({title: name});
-		};
+
 		// sets color selected in start screen
 		let bgColor = this.props.route.params.color;
-		this.props.navigation.setOptions = function (param) {
-			this.props.navigation.setOptions({bgColor: color});
-		};
 
 
 		return (
 			<View title={name}
-			      style={{flex: 1,}}>
+			      style={{backgroundColor: bgColor ? bgColor : '#FFFFFF', flex: 1,}}>
 				<View style={{flex: 1}}>
 					<GiftedChat
 						renderBubble={this.renderBubble.bind(this)}
@@ -84,16 +82,6 @@ export default class Chat extends React.Component {
 					/>
 					{Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height"/> : null}
 				</View>
-
-				<View style={{
-					flex: 1,
-					justifyContent: 'center',
-					alignItems: 'center',
-					backgroundColor: bgColor ? bgColor : '#FFFFFF'}}>
-						<Button
-							title={name}
-							onPress={() => this.props.navigation.navigate('Start')}/>
-					</View>
 			</View>
 		);
 	}

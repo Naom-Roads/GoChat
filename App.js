@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+// Fixes an issues on react native's side with the timer warning
+import { LogBox } from 'react-native';
+LogBox.ignoreWarnings(['Setting a timer']);
+
 // DataBase
 const firebase = require('firebase');
 require('firebase/firestore');

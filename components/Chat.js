@@ -70,25 +70,43 @@ export default class Chat extends React.Component {
             .auth()
             .onAuthStateChanged(async user => {
                 if (!user) {
-                    return await firebase.auth().signInAnonymously();
+                    try {
+                        await firebase.auth().signInAnonymously();
+
+                    } catch (e) {
+                        console.log(e);
+                    }
                 }
                 this.setState({
                     uid: user.uid,
-                    messages: [],
-                    text: `${name} has entered the chat"`,
-                    user: {
-                        _id: user.uid,
-                        name: data.name,
-                        avatar: "https://placeimg.com/140/140/any",
-                    },
-                    createdAt: new Date(),
-                    system: true,
-                },
+                    messages: [
+                        {
+                            id: 1,
+                            text: 'Hello dev',
+                            createdAt: new Date(),
+                            user: {
+                                _id: 2,
+                                name: name,
+                                avatar: "https://placeimg.com/140/140/any",
+                            },
+                        },
+                        // text: `${name} has entered the chat`,
+                        {
+                            _id: user.uid,
+                            text: "This is a system message",
+                            name: data.name,
+                            createdAt: new Date(),
+                            system: true,
+                        },
+                    ]
+                });
+            },
+
         this.unsubscribe = this.referenceChatMessages
             .orderBy("createdAt", "desc")
-            .onSnapshot(this.onCollectionUpdate);
-    });
-}
+            .onSnapshot(this.onCollectionUpdate))
+    }
+
     componentWillUnmount() {
         // stops listening for authentication
         this.authUnsubscribe();
@@ -99,17 +117,16 @@ export default class Chat extends React.Component {
     addMessage() {
         const message = this.state.messages[0];
         this.referenceChatMessages.add({
-            _id: message._id,
             text: message.text || '',
             user: this.state.user,
             createdAt: message.createdAt,
-        });
+        }).catch(e => console.error(e));
     }
 
     onSend(messages = []) {
         this.setState(previousState => ({
-            messages: GiftedChat.append(previousState.messages, messages),
-        }),
+                messages: GiftedChat.append(previousState.messages, messages),
+            }),
             () => {
                 this.addMessage();
             }
@@ -147,11 +164,11 @@ export default class Chat extends React.Component {
                 <View style={{flex: 1}}>
                     <GiftedChat
                         renderBubble={this.renderBubble.bind(this)}
-                        messages={this.state.message}
+                        messages={this.state.messages}
                         onSend={messages => this.onSend(messages)}
                         user={{
                             _id: this.state.user._id,
-                            name: this.state.name,
+                            name: this.state.user.name,
                             avatar: this.state.user.avatar,
                         }}
                     />

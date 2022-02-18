@@ -72,7 +72,6 @@ export default class Chat extends React.Component {
                 if (!user) {
                     try {
                         await firebase.auth().signInAnonymously();
-
                     } catch (e) {
                         console.log(e);
                     }

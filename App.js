@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 
 // Fixes an issues on react native's side with the timer warning
-import { LogBox } from 'react-native';
+import { LogBox, AsyncStorage } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
 
 // DataBase

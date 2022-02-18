@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Fixes an issues on react native's side with the timer warning
-import { LogBox, AsyncStorage } from 'react-native';
+import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Setting a timer']);
 
 // DataBase

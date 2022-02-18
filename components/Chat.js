@@ -4,6 +4,7 @@ import {GiftedChat, Bubble} from 'react-native-gifted-chat';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyCVQYwqs8YVT9ocCmWasCbGitnGyA-kzRc",
     authDomain: "gochat-41237.firebaseapp.com",
@@ -78,26 +79,12 @@ export default class Chat extends React.Component {
                 }
                 this.setState({
                     uid: user.uid,
-                    messages: [
-                        {
-                            id: 1,
-                            text: 'Hello dev',
-                            createdAt: new Date(),
+                    messages: [],
                             user: {
-                                _id: 2,
+                                _id: user.uid,
                                 name: name,
                                 avatar: "https://placeimg.com/140/140/any",
-                            },
                         },
-                        // text: `${name} has entered the chat`,
-                        {
-                            _id: user.uid,
-                            text: "This is a system message",
-                            name: data.name,
-                            createdAt: new Date(),
-                            system: true,
-                        },
-                    ]
                 });
             },
 

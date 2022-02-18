@@ -3,6 +3,8 @@ import {View, Platform, KeyboardAvoidingView} from 'react-native';
 import {GiftedChat, Bubble} from 'react-native-gifted-chat';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo from '@react-native-community/netinfo';
 
 
 const firebaseConfig = {
@@ -59,8 +61,47 @@ export default class Chat extends React.Component {
         })
     };
 
-    componentDidMount() {
+    async getMessages() {
+        let messages = '';
+        try {
+            messages = await AsyncStorage.getItem('messages') || [];
+            this.setState({
+                messages: JSON.parse(messages)
+            });
+        } catch(e) {
+            console.log(e.message);
+        }
+    };
 
+    async saveMessages() {
+        try {
+            await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+        } catch(e) {
+            console.log(e.message);
+        }
+    }
+
+    async deleteMessage() {
+        try {
+            await AsyncStorage.removeItem('messages');
+            this.setState({
+                messages: []
+            })
+        } catch(e) {
+            console.log(e.message);
+        }
+    }
+
+    async componentDidMount() {
+        NetInfo.fetch().then(connection => {
+            if (connection.isConnected) {
+                console.log('online');
+            } else {
+                console.log('offline');
+            }
+        });
+
+       await this.getMessages();
         let {name} = this.props.route.params;
         this.props.navigation.setOptions({title: name})
 
@@ -98,12 +139,6 @@ export default class Chat extends React.Component {
             .onSnapshot(this.onCollectionUpdate))
     }
 
-    componentWillUnmount() {
-        // stops listening for authentication
-        this.authUnsubscribe();
-        // stops listening for changes
-        this.unsubscribe();
-    }
 
     addMessage() {
         const message = this.state.messages[0];
@@ -114,14 +149,24 @@ export default class Chat extends React.Component {
         }).catch(e => console.error(e));
     }
 
+
     onSend(messages = []) {
         this.setState(previousState => ({
                 messages: GiftedChat.append(previousState.messages, messages),
             }),
             () => {
+                this.saveMessages();
                 this.addMessage();
+
             }
         );
+    }
+
+    componentWillUnmount() {
+        // stops listening for authentication
+        this.authUnsubscribe();
+        // stops listening for changes
+        this.unsubscribe();
     }
 
     renderBubble(props) {
@@ -144,7 +189,6 @@ export default class Chat extends React.Component {
     render() {
         // Sets Name Entered in Start Screen
         let name = this.props.route.params.name;
-
         // sets color selected in start screen
         let bgColor = this.props.route.params.color;
 

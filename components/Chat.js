@@ -27,17 +27,15 @@ export default class Chat extends React.Component {
                 avatar: "",
             },
             isConnected: false,
-            image: null,
-            location: null,
             loggedInText: "Please wait, you will be logged in shortly",
         };
 
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
-
+// reference to the Firestore messages collection
+        this.referenceChatMessages = firebase.firestore().collection('messages');
     }
-
 
     onCollectionUpdate = (querySnapShot) => {
         const messages = [];
@@ -62,7 +60,7 @@ export default class Chat extends React.Component {
     };
 
     componentDidMount() {
-        this.referenceChatMessages = firebase.firestore().collection("messages");
+
         let {name} = this.props.route.params;
         this.props.navigation.setOptions({title: name})
 
@@ -86,6 +84,13 @@ export default class Chat extends React.Component {
                                 avatar: "https://placeimg.com/140/140/any",
                         },
                 });
+
+                    // References message of current user
+                    // this.referenceChatMessages = await firebase
+                    //     .firestore()
+                    //     .collection("messages")
+                    //     .where('uid', '==', this.state.uid);
+
             },
 
         this.unsubscribe = this.referenceChatMessages

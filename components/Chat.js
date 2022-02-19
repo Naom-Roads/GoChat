@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Platform, KeyboardAvoidingView} from 'react-native';
-import {GiftedChat, Bubble} from 'react-native-gifted-chat';
+import {GiftedChat, Bubble, Actions} from 'react-native-gifted-chat';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
-
+import CustomActions from '/components/CustomActions';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCVQYwqs8YVT9ocCmWasCbGitnGyA-kzRc",
@@ -185,6 +185,10 @@ export default class Chat extends React.Component {
         );
     }
 
+    renderCustomActions = (props) => {
+        return <CustomActions {...props} />
+    };
+
 
     render() {
         // Sets Name Entered in Start Screen
@@ -199,6 +203,7 @@ export default class Chat extends React.Component {
                 <View style={{flex: 1}}>
                     <GiftedChat
                         renderBubble={this.renderBubble.bind(this)}
+                        renderActions={this.renderCustomActions}
                         messages={this.state.messages}
                         onSend={messages => this.onSend(messages)}
                         user={{

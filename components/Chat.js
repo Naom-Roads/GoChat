@@ -5,7 +5,7 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
-import CustomActions from '/components/CustomActions';
+import CustomActions from './CustomActions';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCVQYwqs8YVT9ocCmWasCbGitnGyA-kzRc",

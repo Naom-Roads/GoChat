@@ -3,70 +3,69 @@
 import PropTypes from "prop-types";
 import React from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-
-// Requires firebase
-import firebase from 'firebase';
-import firestore from 'firebase';
-
 // Imports for Permissions and imagePicker
-import * as Permissions from 'expo-permissions';
+// import * as Permissions from 'expo-permissions'; Deprecated
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 
+// Requires firebase
+import firebase from 'firebase';
+import 'firebase/firestore';
+
 export default class CustomActions extends React.Component {
 // Allows user to select an image from their existing photos
-    imagePicker = async () => {
+    pickImage = async () => {
         // CAMERA_ROLL is being deprecated, the correct const is MEDIA_LIBRARY
-        const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+        // Expo has moved towards module based permissions
+        const [ status, requestPermission ] = await ImagePicker.requestMediaLibraryPermissionsAsync();
         try {
             if (status === 'granted') {
                 let result = await ImagePicker.launchImageLibraryAsync({
                     mediaTypes: ImagePicker.MediaTypeOptions.Images, // will only allow images
-                }).catch(error => console.log(error));
-
+                }).catch((error) => {
+                    console.error(error);
+            });
                 if (!result.cancelled) {
-                    const imageUrl = await this.uploadImageFetch(result.uri);
-                    this.props.onSend({image: imageUrl});
+                    const imageUrl = await this.uploadImage(result.uri);
+                    this.props.onSend({ image: imageUrl });
                 }
             }
             } catch (e) {
-                console.log(e.message);
+                console.error(e.message);
                     }
                 };
 
 // Allows a user to take and send a photo with their mobile device camera
     takePhoto = async () => {
-        const { status } = await Permissions.askAsync(
-            Permissions.CAMERA,
-            Permissions.MEDIA_LIBRARY
-        );
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
         try {
             if (status === 'granted') {
                 const result = await ImagePicker.launchCameraAsync({
                     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                }).catch((error) => console.log(error));
+                }).catch((error) => console.error(error));
 
                 if (!result.cancelled) {
-                    const imageUrl = await this.uploadImageFetch(result.uri);
+                    const imageUrl = await this.uploadImage(result.uri);
                     this.props.onSend({ image: imageUrl});
                 }
             }
         } catch (e) {
-            console.log(e.message);
+            console.error(e.message);
         }
     };
 
     // Allows user to share location to another user
     getLocation = async() => {
-        try {
             // LOCATION has been deprecated, LOCATION FOREGROUND appears to be the most versatile and consistent option for both ios and Android
             // LOCATION_FOREGROUND will only access location when app is in use
-            const { status } = await Permissions.askAsync(Permissions.LOCATION_FOREGROUND);
+            const { status } = await Location.requestForegroundPermissionsAsync();
+            try {
             if ( status === 'granted') {
                 const result = await Location.getCurrentPositionAsync({}
-                ).catch((error) => console.log(error));
-                const longitude = JSON.stringify(result.coords.longitude);
-                const altitude = JSON.stringify(result.coords.latitude);
+                ).catch((error) => { console.error(error);
+              }
+            );
+// Send latitude and longitude to find position on map
                 if (result) {
                     this.props.onSend({
                         location: {
@@ -82,7 +81,7 @@ export default class CustomActions extends React.Component {
         };
 
 // Converts image to binary large object aka "Blob" and uploads images to firebase
-    uploadImageFetch = async(uri) => {
+    uploadImage = async (uri) => {
         const blob = await new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.onload = function () {
@@ -102,7 +101,9 @@ export default class CustomActions extends React.Component {
         const ref = firebase.storage().ref().child(`images/${imageName}`
         );
         const snapshot = await ref.put(blob);
+
         blob.close();
+
         return await snapshot.ref.getDownloadURL();
     };
 
@@ -117,15 +118,15 @@ export default class CustomActions extends React.Component {
                 switch (buttonIndex) {
                     case 0:
                         console.log('User wants to pick an image');
-                        return;
+                        return this.pickImage();
                     case 1:
                         console.log('User wants to take a photo');
-                        return;
+                        return this.takePhoto();
                     case 2:
                         console.log('User wants to get their location');
-                    default:
+                    return this.getLocation();
                 }
-            },
+            }
         );
     };
 

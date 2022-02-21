@@ -17,9 +17,9 @@ export default class CustomActions extends React.Component {
     pickImage = async () => {
         // CAMERA_ROLL is being deprecated, the correct const is MEDIA_LIBRARY
         // Expo has moved towards module based permissions
-        const [ status, requestPermission ] = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const status  = await ImagePicker.requestMediaLibraryPermissionsAsync();
         try {
-            if (status === 'granted') {
+            if (status.accessPrivileges !== 'none') {
                 let result = await ImagePicker.launchImageLibraryAsync({
                     mediaTypes: ImagePicker.MediaTypeOptions.Images, // will only allow images
                 }).catch((error) => {

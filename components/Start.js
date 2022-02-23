@@ -11,6 +11,8 @@ import {
 import SVGUserIcon          from '../assets/usericon.svg';
 
 
+
+
 export default class Start extends React.Component {
 	constructor(props) {
 		super(props);
@@ -161,7 +163,6 @@ export default class Start extends React.Component {
 						accesibilityRole="header"
 						style={styles.titleBox}>
 						<Text style={styles.title}>GoChat</Text>
-
 					</View>
 					<View
 						accessible={false}
@@ -238,7 +239,6 @@ export default class Start extends React.Component {
 						</View>
 
 						{/*Module to Submit Name and color*/}
-
 				<Pressable style={styles.button}
 				           onPress={() => this.props.navigation.navigate('Chat', {
 							   name: this.state.name,

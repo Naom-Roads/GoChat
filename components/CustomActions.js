@@ -65,6 +65,7 @@ export default class CustomActions extends React.Component {
                 ).catch((error) => { console.error(error);
               }
             );
+                console.log(result);
 // Send latitude and longitude to find position on map
                 if (result) {
                     this.props.onSend({

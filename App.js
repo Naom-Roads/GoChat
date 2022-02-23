@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom'
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { MaterialIcons } from "@expo/vector-icons";
-
+import 'react-native-gesture-handler';
 
 
 
@@ -18,7 +17,7 @@ require('firebase/firestore');
 // Imports Screens
 import Start from './components/Start';
 import Chat from './components/Chat';
-import {View} from "react-native-web";
+
 
 
 const Tab = createBottomTabNavigator();

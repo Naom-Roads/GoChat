@@ -22,8 +22,8 @@ const firebaseConfig = {
 };
 
 export default class Chat extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             messages: [],
             uid: 0,
@@ -120,9 +120,10 @@ export default class Chat extends React.Component {
 
     async saveMessages() {
         try {
-            await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+            await AsyncStorage.setItem("messages", JSON.stringify(this.state.messages)
+            );
         } catch (e) {
-            console.log(e.message);
+            console.log(e.messages);
         }
     };
 
@@ -132,8 +133,8 @@ export default class Chat extends React.Component {
                 messages: GiftedChat.append(previousState.messages, messages),
             }),
             () => {
-                this.saveMessages();
                 this.addMessages();
+                this.saveMessages();
             }
         );
     }

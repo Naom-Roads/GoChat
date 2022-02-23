@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 import CustomActions from './CustomActions';
 import MapView from 'react-native-maps';
+import {ActivityIndicator} from "react-native-web";
 
 const firebase = require('firebase'); //Connects to firebase
 require('firebase/firestore');
@@ -22,25 +23,27 @@ const firebaseConfig = {
 };
 
 export default class Chat extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             messages: [],
             uid: 0,
+            loggedInText: "Logging in...",
             user: {
                 _id: "",
                 name: "",
                 avatar: "",
             },
             isConnected: false,
-            loggedInText: "Please wait, you will be logged in shortly",
+            image: null,
+            location: null,
         };
 
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
 // reference to the Firestore messages collection
-        this.referenceChatMessages = firebase.firestore().collection('messages');
+        this.referenceChatMessages = firebase.firestore().collection("messages");
     }
 
     async getMessages() {
@@ -123,7 +126,7 @@ export default class Chat extends React.Component {
             await AsyncStorage.setItem("messages", JSON.stringify(this.state.messages)
             );
         } catch (e) {
-            console.log(e.messages);
+            console.log(e.message);
         }
     };
 
@@ -229,10 +232,10 @@ export default class Chat extends React.Component {
                     <GiftedChat
                         renderBubble={this.renderBubble.bind(this)}
                         messages={this.state.messages}
-                        isConnected={this.state.isConnected}
                         renderActions={this.renderCustomActions}
+                        isConnected={this.state.isConnected}
                         renderCustomView={this.renderCustomView}
-                        onSend={messages => this.onSend(messages)}
+                        onSend={(messages) => this.onSend(messages)}
                         user={{
                             _id: this.state.user._id,
                             name: this.state.name,

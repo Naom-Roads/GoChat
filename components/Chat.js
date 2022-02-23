@@ -46,7 +46,7 @@ export default class Chat extends React.Component {
     async getMessages() {
         let messages = '';
         try {
-            messages = await AsyncStorage.getItem('messages') || [];
+            messages = (await AsyncStorage.getItem('messages')) || [];
             this.setState({
                 messages: JSON.parse(messages)
             });
@@ -124,7 +124,7 @@ export default class Chat extends React.Component {
         } catch (e) {
             console.log(e.message);
         }
-    }
+    };
 
 
     onSend(messages = []) {
@@ -160,7 +160,8 @@ export default class Chat extends React.Component {
         });
         this.setState({
             message: messages,
-        })
+        });
+        this.saveMessages();
     };
 
     async deleteMessage() {

@@ -60,22 +60,20 @@ export default class Chat extends React.Component {
         let {name} = this.props.route.params;
         //Adds name to top of screen
         this.props.navigation.setOptions({title: name})
-
         // Looks at user's connection Status
         NetInfo.fetch().then(connection => {
             if (connection.isConnected) {
                 this.setState({isConnected: true});
                 console.log('online');
+                // Listens for updates in collection
+                this.unsubscribe = this.referenceChatMessages
+                    .orderBy("createdAt", "desc")
+                    .onSnapshot(this.onCollectionUpdate);
                 // Allows user to sign in anonymously
                 this.authUnsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
                     if (!user) {
                         await firebase.auth().signInAnonymously();
                     }
-// Listens for updates in collection
-                    this.unsubscribe = this.referenceChatMessages
-                        .orderBy("createdAt", "desc")
-                        .onSnapshot(this.onCollectionUpdate);
-
                     // Updates user state with current user
                     this.setState({
                         uid: user.uid,
@@ -85,13 +83,13 @@ export default class Chat extends React.Component {
                             name: name,
                             avatar: "https://placeimg.com/140/140/any",
                         },
+                        isConnected: true,
                     });
                 });
                 this.saveMessages();
             } else {
                 this.setState({isConnected: false});
                 console.log('offline');
-
                 // Retrieves messages from AsyncStorage
                 this.getMessages();
             }
@@ -99,10 +97,12 @@ export default class Chat extends React.Component {
     }
 
     componentWillUnmount() {
-        // stops listening for authentication
-        this.authUnsubscribe();
-        // stops listening for changes
-        this.unsubscribe();
+        if (this.state.isConnected) {
+            // stops listening for authentication
+            this.authUnsubscribe();
+            // stops listening for changes
+            this.unsubscribe();
+        }
     }
 
 
@@ -175,22 +175,22 @@ export default class Chat extends React.Component {
     }
 
     renderCustomView(props) {
-        const { currentMessage } = props;
+        const {currentMessage} = props;
         if (currentMessage.location) {
             return (
                 <MapView
-                    style={{width: 150, height: 100, borderRadius: 13, margin: 3 }}
+                    style={{width: 150, height: 100, borderRadius: 13, margin: 3}}
                     region={{
                         latitude: currentMessage.location.latitude,
                         longitude: currentMessage.location.longitude,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}
-                    />
+                />
             );
         }
         return null;
-     }
+    }
 
     renderCustomActions = (props) => {
         return <CustomActions {...props} />

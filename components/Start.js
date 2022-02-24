@@ -24,6 +24,17 @@ export default class Start extends React.Component {
         this.setState({bgColor: color});
     };
 
+    changeName = (name) => {
+        this.setState({name: name});
+    };
+
+    navigateToChat = () => {
+        this.props.navigation.navigate('Chat', {
+            name: this.state.name,
+            color: this.state.bgColor
+        });
+    }
+
     // Color Choices
     color = {
         black: "#090C08",
@@ -34,154 +45,6 @@ export default class Start extends React.Component {
 
     render() {
 
-        // CSS Styles for Main Page
-        const styles = StyleSheet.create({
-            container: {
-                flex: 1,
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-            },
-
-            titleBox: {
-                flex: 1,
-                width: '60%',
-                height: 'auto',
-                alignItems: 'center',
-                resizeMode: 'contain' // sets the image uniformly and sets aspect ratio
-            },
-
-            title: {
-                color: '#FFFFFF',
-                fontSize: 50,
-                fontWeight: '600',
-            },
-
-            image: {
-                flex: 1,
-                width: '100%',
-                flexDirection: 'column',
-                alignItems: "center"
-            },
-
-            text: {
-                color: "black"
-            },
-
-            button: {
-                backgroundColor: '#757083',
-                width: '88%',
-                height: 40,
-                marginBottom: 20,
-                marginTop: 5,
-            },
-
-            buttonText: {
-                fontSize: 16,
-                textAlign: 'center',
-                fontWeight: '600',
-                color: 'white',
-                padding: 10,
-            },
-
-            optionsContainer: {
-                height: '44%',
-                width: '88%',
-                marginBottom: 30,
-                backgroundColor: '#FFFFFF',
-                flexGrow: 1,
-                flexShrink: 0,
-                justifyContent: 'space-evenly',
-                flexDirection: "column",
-                alignItems: "center",
-                minHeight: 260,
-                maxHeight: 300,
-                padding: 10,
-                paddingBottom: 30,
-                paddingTop: 30,
-            },
-
-            inputBox: {
-                marginTop: 25,
-                paddingTop: 10,
-                marginBottom: 25,
-                width: '88%',
-                height: 40,
-            },
-
-            inputText: {
-                flexDirection: 'row',
-                alignItems: 'flex-start',
-                borderColor: "gray",
-                padding: 10,
-                paddingRight: 80,
-                borderWidth: 1,
-                fontWeight: '300',
-                color: '#757083',
-                opacity: .5,
-                fontSize: 16,
-            },
-
-            iconImg: {
-                width: 15,
-                height: "auto",
-                marginRight: 10,
-            },
-
-            colorTitle: {
-                textAlign: "center",
-                paddingTop: 40,
-                fontSize: 15,
-                fontWeight: '300',
-                color: '#736357',
-                opacity: 1,
-                marginBottom: 10,
-                marginTop: 10,
-            },
-
-            colorPicker: {
-                flex: 1,
-                width: '88%',
-
-            },
-
-            colorOptions: {
-                flex: 1,
-                flexDirection: 'row',
-
-            },
-
-            circle1: {
-                backgroundColor: '#090C08',
-                width: 50,
-                height: 50,
-                borderRadius: 25,
-                margin: 5,
-            },
-
-            circle2: {
-                backgroundColor: '#474056',
-                width: 50,
-                height: 50,
-                borderRadius: 25,
-                margin: 5,
-            },
-
-            circle3: {
-                backgroundColor: '#8A95A5',
-                width: 50,
-                height: 50,
-                borderRadius: 25,
-                margin: 5,
-            },
-
-            circle4: {
-                backgroundColor: '#B9C6AE',
-                width: 50,
-                height: 50,
-                borderRadius: 25,
-                margin: 5,
-            }
-        });
 
         // Return of Components Starts Here
 
@@ -217,9 +80,9 @@ export default class Start extends React.Component {
                                     accessibilityLabel="input field for name with user icon"
                                     accessibilityHint="Type your name"
                                     accessibilityRole="none"
-                                    onChangeText={(text) => this.setState({name: text})}
+                                    onChangeText={this.changeName}
                                     value={this.state.name}
-                                    placeholder={"Your Name"}/>
+                                    placeholder="Your Name"/>
                             </View>
                         </View>
 
@@ -292,11 +155,7 @@ export default class Start extends React.Component {
                         {/*Module to Submit Name and color*/}
 
                         <Pressable style={styles.button}
-                                   onPress={() => this.props.navigation.navigate('Chat', {
-                                       name: this.state.name,
-                                       color: this.state.bgColor
-                                   })
-                                   }
+                                   onPress={this.navigateToChat}
                         >
                             <Text style={styles.buttonText}>Start Chatting</Text>
                         </Pressable>
@@ -307,3 +166,152 @@ export default class Start extends React.Component {
 
     }
 }
+
+// CSS Styles for Main Page
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+    },
+
+    titleBox: {
+        flex: 1,
+        width: '60%',
+        height: 'auto',
+        alignItems: 'center',
+        resizeMode: 'contain' // sets the image uniformly and sets aspect ratio
+    },
+
+    title: {
+        color: '#FFFFFF',
+        fontSize: 50,
+        fontWeight: '600',
+    },
+
+    image: {
+        flex: 1,
+        width: '100%',
+        flexDirection: 'column',
+        alignItems: "center"
+    },
+
+    text: {
+        color: "black"
+    },
+
+    button: {
+        backgroundColor: '#757083',
+        width: '88%',
+        height: 40,
+        marginBottom: 20,
+        marginTop: 5,
+    },
+
+    buttonText: {
+        fontSize: 16,
+        textAlign: 'center',
+        fontWeight: '600',
+        color: 'white',
+        padding: 10,
+    },
+
+    optionsContainer: {
+        height: '44%',
+        width: '88%',
+        marginBottom: 30,
+        backgroundColor: '#FFFFFF',
+        flexGrow: 1,
+        flexShrink: 0,
+        justifyContent: 'space-evenly',
+        flexDirection: "column",
+        alignItems: "center",
+        minHeight: 260,
+        maxHeight: 300,
+        padding: 10,
+        paddingBottom: 30,
+        paddingTop: 30,
+    },
+
+    inputBox: {
+        marginTop: 25,
+        paddingTop: 10,
+        marginBottom: 25,
+        width: '88%',
+        height: 40,
+    },
+
+    inputText: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        borderColor: "gray",
+        padding: 10,
+        paddingRight: 80,
+        borderWidth: 1,
+        fontWeight: '300',
+        color: '#757083',
+        opacity: .5,
+        fontSize: 16,
+    },
+
+    iconImg: {
+        width: 15,
+        height: "auto",
+        marginRight: 10,
+    },
+
+    colorTitle: {
+        textAlign: "center",
+        paddingTop: 40,
+        fontSize: 15,
+        fontWeight: '300',
+        color: '#736357',
+        opacity: 1,
+        marginBottom: 10,
+        marginTop: 10,
+    },
+
+    colorPicker: {
+        flex: 1,
+        width: '88%',
+
+    },
+
+    colorOptions: {
+        flex: 1,
+        flexDirection: 'row',
+
+    },
+
+    circle1: {
+        backgroundColor: '#090C08',
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        margin: 5,
+    },
+
+    circle2: {
+        backgroundColor: '#474056',
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        margin: 5,
+    },
+
+    circle3: {
+        backgroundColor: '#8A95A5',
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        margin: 5,
+    },
+
+    circle4: {
+        backgroundColor: '#B9C6AE',
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        margin: 5,
+    }
+});

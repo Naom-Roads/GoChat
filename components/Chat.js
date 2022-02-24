@@ -6,8 +6,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 import CustomActions from './CustomActions';
 import MapView from 'react-native-maps';
-import {ActivityIndicator} from "react-native-web";
-import { getAuth, signInAnonymously } from "firebase/auth";
 
 const firebase = require('firebase'); //Connects to firebase
 require('firebase/firestore');
@@ -99,6 +97,14 @@ export default class Chat extends React.Component {
                 this.getMessages();
             }
         });
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // Sets page title
+        let {name} = this.props.route.params;
+        if (prevProps.route.params.name !== name)
+        //Adds name to top of screen once changed
+        this.props.navigation.setOptions({ title: name })
     }
 
     componentWillUnmount() {
@@ -221,6 +227,7 @@ export default class Chat extends React.Component {
 
 
     render() {
+        console.log("Params", this.props.route.params)
         // Sets Name Entered in Start Screen
         let name = this.props.route.params.name;
         // sets color selected in start screen
@@ -240,7 +247,7 @@ export default class Chat extends React.Component {
                         onSend={(messages) => this.onSend(messages)}
                         user={{
                             _id: this.state.user._id,
-                            name: this.state.name,
+                            name: this.state.user.name,
                             avatar: this.state.user.avatar
                         }}
                     />

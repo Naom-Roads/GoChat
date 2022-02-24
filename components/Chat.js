@@ -38,14 +38,14 @@ export default class Chat extends React.Component {
             isConnected: false,
             image: null,
             location: null,
-        };
+        }
 
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
 // reference to the Firestore messages collection
         this.referenceChatMessages = firebase.firestore().collection("messages");
-    }
+    };
 
     async getMessages() {
         let messages = '';
@@ -63,21 +63,22 @@ export default class Chat extends React.Component {
         // Sets page title
         let {name} = this.props.route.params;
         //Adds name to top of screen
-        this.props.navigation.setOptions({title: name})
+        this.props.navigation.setOptions({ title: name })
         // Looks at user's connection Status
         NetInfo.fetch().then(connection => {
             if (connection.isConnected) {
                 this.setState({isConnected: true});
                 console.log('online');
                 // Listens for updates in collection
-                this.unsubscribe = this.referenceChatMessages
-                    .orderBy("createdAt", "desc")
-                    .onSnapshot(this.onCollectionUpdate);
                 // Allows user to sign in anonymously
                 this.authUnsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
                     if (!user) {
                         await firebase.auth().signInAnonymously();
                     }
+                    this.unsubscribe = this.referenceChatMessages
+                        .orderBy("createdAt", "desc")
+                        .onSnapshot(this.onCollectionUpdate);
+
                     // Updates user state with current user
                     this.setState({
                         uid: user.uid,

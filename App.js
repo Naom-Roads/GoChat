@@ -23,18 +23,15 @@ import Chat from './components/Chat';
 const Tab = createBottomTabNavigator();
 
 export default class App extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
 
             <NavigationContainer>
                 <Tab.Navigator initialRouteName="Start" tabBarOptions={{ showIcon: true}}>
-                    <Tab.Screen
+                        <Tab.Screen
                         name="Start"
                         component={Start}
-                        screenOptions={{
+                        options={{
                             tabBarIcon: (tabInfo) => (
                                 <MaterialIcons name="home" size={20} color={tabInfo.tintColor} />
                             ),
@@ -43,7 +40,7 @@ export default class App extends Component {
                     <Tab.Screen
                         name="Chat"
                         component={Chat}
-                        screenOptions={{
+                        options={{
                             tabBarIcon: (tabInfo) => (
                                 <MaterialIcons name="chat" size={20} color={tabInfo.tintColor} />
                             ),

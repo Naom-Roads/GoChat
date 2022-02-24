@@ -7,6 +7,7 @@ import NetInfo from '@react-native-community/netinfo';
 import CustomActions from './CustomActions';
 import MapView from 'react-native-maps';
 import Firebase from "firebase";
+import {TIME_FORMAT} from "react-native-gifted-chat/lib/Constant";
 
 const firebase = require('firebase'); //Connects to firebase
 require('firebase/firestore');
@@ -28,6 +29,7 @@ export default class Chat extends React.Component {
         this.state = {
             messages: [],
             uid: 0,
+            createdAt: '',
             loggedInText: "Logging in...",
             user: {
                 _id: "",
@@ -63,7 +65,7 @@ export default class Chat extends React.Component {
         // Sets page title
         let {name} = this.props.route.params;
         //Adds name to top of screen
-        this.props.navigation.setOptions({ title: name })
+        this.props.navigation.setOptions({title: name})
         // Looks at user's connection Status
         NetInfo.fetch().then(connection => {
             if (connection.isConnected) {
@@ -82,7 +84,19 @@ export default class Chat extends React.Component {
                     const querySnapshot = await this.referenceChatMessages.get();
                     const messages = [];
                     querySnapshot.forEach((doc) => {
-                        messages.push(doc.data());
+                        let data = doc.data();
+                        messages.push({
+                            _id: data._id,
+                            text: data.text,
+                            createdAt: data.createdAt.toDate(),
+                            user: {
+                                _id: data.user._id,
+                                name: data.user.name,
+                                avatar: data.user.avatar,
+                            },
+                            image: data.image || null,
+                            location: data.location || null,
+                        });
                     })
 
                     // Updates user state with current user
@@ -107,12 +121,42 @@ export default class Chat extends React.Component {
         });
     }
 
+    onCollectionUpdate = (querySnapShot) => {
+        const messages = [];
+        // go through each doc
+        querySnapShot.forEach((doc) => {
+            // get the query DocSnapShot data
+            let data = doc.data();
+            messages.push({
+                _id: data._id,
+                text: data.text,
+                createdAt: data.createdAt.toDate(),
+                user: {
+                    _id: data.user._id,
+                    name: data.user.name,
+                    avatar: data.user.avatar,
+                },
+                image: data.image || null,
+                location: data.location || null,
+            });
+        });
+        this.setState({
+            message: messages,
+        });
+
+        if (this.state.messages && this.state.messages.length > 0) {
+            this.saveMessages();
+        }
+    };
+
+
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         // Sets page title
         let {name} = this.props.route.params;
         if (prevProps.route.params.name !== name)
-        //Adds name to top of screen once changed
-        this.props.navigation.setOptions({ title: name })
+            //Adds name to top of screen once changed
+            this.props.navigation.setOptions({title: name})
     }
 
     componentWillUnmount() {
@@ -149,7 +193,7 @@ export default class Chat extends React.Component {
 
     onSend(messages = []) {
         this.setState((previousState) => {
-            return {
+                return {
                     messages: GiftedChat.append(previousState.messages, messages),
                 };
             },
@@ -161,33 +205,6 @@ export default class Chat extends React.Component {
     }
 
 
-    onCollectionUpdate = (querySnapShot) => {
-        const messages = [];
-        // go through each doc
-        querySnapShot.forEach((doc) => {
-            // get the query DocSnapShot data
-            let data = doc.data();
-            messages.push({
-                _id: data._id,
-                text: data.text,
-                createdAt: data.createdAt.toDate(),
-                user: {
-                    _id: data._id,
-                    name: data.user.name,
-                    avatar: data.user.avatar,
-                },
-                image: data.image || null,
-                location: data.location || null,
-            });
-        });
-        this.setState({
-            message: messages,
-        });
-
-        if (this.state.messages && this.state.messages.length > 0) {
-            this.saveMessages();
-        }
-    };
 
     async deleteMessage() {
         try {
@@ -228,10 +245,10 @@ export default class Chat extends React.Component {
                 {...props}
                 wrapperStyle={{
                     right: {
-                        backgroundColor: '#000'
+                        backgroundColor: '#243335'
                     },
                     left: {
-                        backgroundColor: 'lightblue'
+                        backgroundColor: '#EEEEEE'
                     }
                 }}
             />

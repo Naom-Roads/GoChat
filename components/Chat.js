@@ -7,6 +7,7 @@ import NetInfo from '@react-native-community/netinfo';
 import CustomActions from './CustomActions';
 import MapView from 'react-native-maps';
 import {ActivityIndicator} from "react-native-web";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const firebase = require('firebase'); //Connects to firebase
 require('firebase/firestore');
@@ -49,7 +50,7 @@ export default class Chat extends React.Component {
     async getMessages() {
         let messages = '';
         try {
-            messages = (await AsyncStorage.getItem('messages')) || [];
+            messages = await AsyncStorage.getItem('messages') || [];
             this.setState({
                 messages: JSON.parse(messages)
             });

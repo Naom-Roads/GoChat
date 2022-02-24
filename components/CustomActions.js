@@ -134,7 +134,7 @@ export default class CustomActions extends React.Component {
     render() {
         return (
             <TouchableOpacity
-                accesible={true}
+                accessible={true}
                 accessibilityLabel="More Options"
                 accessibilityHint= "Let's you choose to send an image or your geolocation"
                 style={[styles.container]}

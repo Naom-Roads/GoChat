@@ -158,32 +158,33 @@ export default class Start extends React.Component {
 				                 source={require('../assets/Background-Image.png')} >
 					<View
 						accessible={false}
-					    accesibilityLabel="GoChat"
-						accesibilityHint="Title of App"
-						accesibilityRole="header"
+					    accessibilityLabel="GoChat"
+						accessibilityHint="Title of App"
+						accessibilityRole="header"
 						style={styles.titleBox}>
 						<Text style={styles.title}>GoChat</Text>
 					</View>
+
 					<View
-						accessible={false}
-						accesibilityLabel="container"
-						accesibilityHint="Application Options"
-						accesibilityRole="main view"
+						accessible={true}
+						accessibilityLabel="container"
+						accessibilityHint="Application Options"
+						accessibilityRole="menu"
 						style={styles.container}>
 
 						{/*Input box for name*/}
 
-				<View
+				<View>
+				   <SVGUserIcon style={styles.iconImg}/>
+					<TextInput
 					accessible={true}
-					accesibilityLabel="input field for name with usericon"
-					accesibilityHint="Type name"
-					accesibilityRole="input field"
-					style={styles.inputBox}>
-					<SVGUserIcon style={styles.iconImg}/>
-						<TextInput
+					accessibilityLabel="input field for name with user icon"
+					accessibilityHint="Type your name"
+					accessibilityRole="none"
+					style={styles.inputBox}
 				onChangeText={(name) => this.setState({name})}
 					value={this.state.name}
-						placeholder={"Your Name"} >
+						placeholder={"Your Name"}>
 				</TextInput>
 				</View>
 
@@ -192,9 +193,9 @@ export default class Start extends React.Component {
 						<View style={styles.colorPicker}>
 							<TouchableOpacity
 								accessible={true}
-								accesibilityLabel="Black as background"
-								accesibilityHint="Press on to set background color to black"
-								accesibilityRole="combobox"
+								accessibilityLabel="Black as background"
+								accessibilityHint="Press on to set background color to black"
+								accessibilityRole="combobox"
 							onPress={()=> { this.changeColor(this.color.black)}}
 							style={styles.colorSelect}>
 								<View style={styles.circle1}>
@@ -204,9 +205,9 @@ export default class Start extends React.Component {
 
 							<TouchableOpacity
 								accessible={true}
-								accesibilityLabel="Mauve Purple as background"
-								accesibilityHint="Press on to set background color to mauve purple"
-								accesibilityRole="combobox"
+								accessibilityLabel="Mauve Purple as background"
+								accessibilityHint="Press on to set background color to mauve purple"
+								accessibilityRole="combobox"
 								onPress={()=> { this.changeColor(this.color.mauvePurple)}}
 								style={styles.colorSelect}>
 								<View style={styles.circle2}>
@@ -216,9 +217,9 @@ export default class Start extends React.Component {
 
 							<TouchableOpacity
 								accessible={true}
-								accesibilityLabel="Grayish Blue as background"
-								accesibilityHint="Press on to set background color to grayish blue"
-								accesibilityRole="combobox"
+								accessibilityLabel="Grayish Blue as background"
+								accessibilityHint="Press on to set background color to grayish blue"
+								accessibilityRole="combobox"
 								onPress={()=> { this.changeColor(this.color.paleBlue)}}
 								style={styles.colorSelect}>
 								<View style={styles.circle3}>
@@ -228,16 +229,15 @@ export default class Start extends React.Component {
 
 							<TouchableOpacity
 								accessible={true}
-								accesibilityLabel="Pastel Green as background"
-								accesibilityHint="Press on to set background color to pastel green"
-								accesibilityRole="combobox"
+								accessibilityLabel="Pastel Green as background"
+								accessibilityHint="Press on to set background color to pastel green"
+								accessibilityRole="combobox"
 								onPress={()=> { this.changeColor(this.color.pastelGreen)}}
 								style={styles.colorSelect}>
 								<View style={styles.circle4}>
 								</View>
 								</TouchableOpacity>
 						</View>
-
 						{/*Module to Submit Name and color*/}
 				<Pressable style={styles.button}
 				           onPress={() => this.props.navigation.navigate('Chat', {
@@ -249,7 +249,6 @@ export default class Start extends React.Component {
 				</Pressable>
 					</View>
 				</ImageBackground>
-
 		);
 
 	}

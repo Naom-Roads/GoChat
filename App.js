@@ -34,7 +34,7 @@ export default class App extends Component {
                     <Tab.Screen
                         name="Start"
                         component={Start}
-                        options={{
+                        screenOptions={{
                             tabBarIcon: (tabInfo) => (
                                 <MaterialIcons name="home" size={20} color={tabInfo.tintColor} />
                             ),
@@ -43,7 +43,7 @@ export default class App extends Component {
                     <Tab.Screen
                         name="Chat"
                         component={Chat}
-                        options={{
+                        screenOptions={{
                             tabBarIcon: (tabInfo) => (
                                 <MaterialIcons name="chat" size={20} color={tabInfo.tintColor} />
                             ),

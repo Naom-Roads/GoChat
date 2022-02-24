@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 import CustomActions from './CustomActions';
 import MapView from 'react-native-maps';
+import Firebase from "firebase";
 
 const firebase = require('firebase'); //Connects to firebase
 require('firebase/firestore');
@@ -39,16 +40,16 @@ export default class Chat extends React.Component {
         }
 
         if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
+            Firebase.initializeApp(firebaseConfig);
         }
 // reference to the Firestore messages collection
-        this.referenceChatMessages = firebase.firestore().collection("messages");
+        this.referenceChatMessages = Firebase.firestore().collection("messages");
     };
 
     async getMessages() {
-        let messages = '';
+        let messages;
         try {
-            messages = await AsyncStorage.getItem('messages') || [];
+            messages = await AsyncStorage.getItem('messages');
             this.setState({
                 messages: JSON.parse(messages)
             });
@@ -57,7 +58,8 @@ export default class Chat extends React.Component {
         }
     };
 
-    componentDidMount() {
+    async componentDidMount() {
+        debugger;
         // Sets page title
         let {name} = this.props.route.params;
         //Adds name to top of screen
@@ -71,16 +73,22 @@ export default class Chat extends React.Component {
                 // Allows user to sign in anonymously
                 this.authUnsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
                     if (!user) {
-                        await firebase.auth().signInAnonymously();
+                        user = await firebase.auth().signInAnonymously();
                     }
                     this.unsubscribe = this.referenceChatMessages
                         .orderBy("createdAt", "desc")
                         .onSnapshot(this.onCollectionUpdate);
 
+                    const querySnapshot = await this.referenceChatMessages.get();
+                    const messages = [];
+                    querySnapshot.forEach((doc) => {
+                        messages.push(doc.data());
+                    })
+
                     // Updates user state with current user
                     this.setState({
                         uid: user.uid,
-                        messages: [],
+                        messages,
                         user: {
                             _id: user.uid,
                             name: name,
@@ -117,9 +125,9 @@ export default class Chat extends React.Component {
     }
 
 
-    addMessages() {
+    async addMessages() {
         const message = this.state.messages[0];
-        this.referenceChatMessages.add({
+        await this.referenceChatMessages.add({
             _id: message._id,
             text: message.text || "",
             createdAt: message.createdAt,
@@ -140,12 +148,14 @@ export default class Chat extends React.Component {
 
 
     onSend(messages = []) {
-        this.setState((previousState) => ({
-                messages: GiftedChat.append(previousState.messages, messages),
-            }),
-            () => {
-                this.addMessages();
-                this.saveMessages();
+        this.setState((previousState) => {
+            return {
+                    messages: GiftedChat.append(previousState.messages, messages),
+                };
+            },
+            async () => {
+                await this.addMessages();
+                await this.saveMessages();
             }
         );
     }
@@ -173,7 +183,10 @@ export default class Chat extends React.Component {
         this.setState({
             message: messages,
         });
-        this.saveMessages();
+
+        if (this.state.messages && this.state.messages.length > 0) {
+            this.saveMessages();
+        }
     };
 
     async deleteMessage() {

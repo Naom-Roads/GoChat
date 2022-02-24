@@ -3979,6 +3979,11 @@ http-parser-js@>=0.5.1:
   resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.5.5.tgz#d7c30d5d3c90d865b4a2e870181f9d6f22ac7ac5"
   integrity sha512-x+JVEkO2PoM8qqpbPbOL3cqHPwerep7OwzK7Ay+sMQjKzaKCqWvjoXm5tqMP9tXWWTnTzAjIhXg+J99XYuPhPA==
 
+humps@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/humps/-/humps-2.0.1.tgz#dd02ea6081bd0568dc5d073184463957ba9ef9aa"
+  integrity sha1-3QLqYIG9BWjcXQcxhEY5V7qe+ao=
+
 hyphenate-style-name@^1.0.2, hyphenate-style-name@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.4.tgz#691879af8e220aea5750e8827db4ef62a54e361d"
@@ -4707,7 +4712,7 @@ lodash.throttle@^4.1.1:
   resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
   integrity sha1-wj6RtxAkKscMN/HhzaknTMOb8vQ=
 
-lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.21:
+lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.17.5:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -6131,6 +6136,21 @@ react-native-communications@^2.2.1:
   resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
   integrity sha1-eIO1ayCgAu63kMET+GFuqGksp5U=
 
+react-native-debugger@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-debugger/-/react-native-debugger-1.1.0.tgz#88ae36c229a7da6c8e97e0e98e366eca55d4736a"
+  integrity sha512-ckFI3QztvmLUVE/TCA++V5apVWrsARejSXqSFdTtiKmTNOsHhF+KjiVzwBYk1TegiSCjDU0LHO4m5b+HjN0Ncg==
+  dependencies:
+    humps "^2.0.1"
+    lodash "^4.17.5"
+    react-native-device-info "^0.10.2"
+    redux-create-reducer "^1.1.1"
+
+react-native-device-info@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.10.2.tgz#350cd68ed43839022ddea0a3a423439f16fa4fba"
+  integrity sha1-NQzWjtQ4OQIt3qCjpCNDnxb6T7o=
+
 react-native-fontawesome@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/react-native-fontawesome/-/react-native-fontawesome-7.0.0.tgz#9050d50e03c5264c071292b885ab189f29accfad"
@@ -6373,6 +6393,11 @@ rechoir@^0.6.2:
   integrity sha1-hSBLVNuoLVdC4oyWdW70OvUOM4Q=
   dependencies:
     resolve "^1.1.6"
+
+redux-create-reducer@^1.1.1:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/redux-create-reducer/-/redux-create-reducer-1.2.0.tgz#accdd7f36509b202c7602f14c0fb827a4d1c3dde"
+  integrity sha512-H+bi4NCgw253xVVGHRnQQyWVkl2v0MDUiWRzFrSexcSgZ84JOa9Phsso1IRKKkrqGvBqQn2+oLZYdB3/qG99FQ==
 
 regenerate-unicode-properties@^10.0.1:
   version "10.0.1"

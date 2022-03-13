@@ -2,8 +2,6 @@
 
 Is a mobile application that allows users to connect with each other via customizable chat room.
 
-![gochatsnapshot](https://user-images.githubusercontent.com/44932790/158056168-85e3aa7f-1bee-4cce-bd14-bd263ac6db85.png)
-
 ## Key Features
 
 * Users can customize the color of the chatroom
@@ -43,3 +41,5 @@ reader so that I can engage with a chat interface.
 
 
 https://user-images.githubusercontent.com/44932790/158056455-6071a95a-fbaf-4dc6-8736-34abfb0c8e24.mp4
+
+![gochatsnapshot](https://user-images.githubusercontent.com/44932790/158056168-85e3aa7f-1bee-4cce-bd14-bd263ac6db85.png)

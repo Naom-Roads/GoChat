@@ -2,6 +2,8 @@
 
 Is a mobile application that allows users to connect with each other via customizable chat room.
 
+![gochatsnapshot](https://user-images.githubusercontent.com/44932790/158056168-85e3aa7f-1bee-4cce-bd14-bd263ac6db85.png)
+
 ## Key Features
 
 * Users can customize the color of the chatroom
@@ -38,9 +40,6 @@ the latest news.
 time.
 * As a user with a visual impairment, I want to use a chat app that is compatible with a screen
 reader so that I can engage with a chat interface.
-
-
-![gochatsnapshot](https://user-images.githubusercontent.com/44932790/158056168-85e3aa7f-1bee-4cce-bd14-bd263ac6db85.png)
 
 
 https://user-images.githubusercontent.com/44932790/158056455-6071a95a-fbaf-4dc6-8736-34abfb0c8e24.mp4

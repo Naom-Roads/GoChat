@@ -4,11 +4,17 @@ Is a mobile application that allows users to connect with each other via customi
 
 ## Key Features
 
+https://user-images.githubusercontent.com/44932790/158056455-6071a95a-fbaf-4dc6-8736-34abfb0c8e24.mp4
+
+
+
 * Users can customize the color of the chatroom
 * Users can share location and photos
 * Users can exchange messages with another 
 * Users can read messages offline
 * Chat app is compatible with screen readers
+
+![gochatsnapshot](https://user-images.githubusercontent.com/44932790/158056168-85e3aa7f-1bee-4cce-bd14-bd263ac6db85.png)
 
 ## Technologies Used
 
@@ -24,6 +30,7 @@ Is a mobile application that allows users to connect with each other via customi
 ## Color Options
 
 Color options HEX codes: #090C08; #474056; #8A95A5; #B9C6AE
+
 
 ## User Stories
 
